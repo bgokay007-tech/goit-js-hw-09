@@ -1,16 +1,6 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-const lightbox = new SimpleLightbox('.gallery-item a', {
-  captions: true,             
-  captionsData: 'alt',          
-  captionPosition: 'bottom',   
-  captionDelay: 250             
-});
-
-
-
-
 const images = [
   {
     preview:
@@ -92,6 +82,12 @@ const galleryMarkup = images
 </li>`
   )
   .join("");
+const lightbox = new SimpleLightbox('.gallery-item a', {
+  captions: true,             
+  captionsData: 'alt',          
+  captionPosition: 'bottom',   
+  captionDelay: 250             
+});
 
 galleryContainer.insertAdjacentHTML("beforeend", galleryMarkup);
 
@@ -103,7 +99,7 @@ galleryContainer.addEventListener("click", (event) => {
 
   const largeImageURL = event.target.dataset.source;
 
-  const instance = basicLightbox.create(
+  const instance = SimpleLightbox.create(
     `<img src="${largeImageURL}" alt="${event.target.alt}" />`,
     {
       onShow: (instance) => {
