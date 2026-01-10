@@ -1,6 +1,5 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-
 const images = [
   {
     preview:
@@ -66,7 +65,7 @@ const images = [
     description: "Lighthouse Coast Sea",
   },
 ];
-const galleryContainer = document.querySelector(".gallery-item");
+const galleryContainer = document.querySelector(".gallery");
 const galleryMarkup = images
   .map(
     ({ preview, original, description }) => `
@@ -82,6 +81,10 @@ const galleryMarkup = images
 </li>`
   )
   .join("");
+
+
+galleryContainer.insertAdjacentHTML("beforeend", galleryMarkup);
+
 const lightbox = new SimpleLightbox('.gallery-item a', {
   captions: true,             
   captionsData: 'alt',          
@@ -89,33 +92,3 @@ const lightbox = new SimpleLightbox('.gallery-item a', {
   captionDelay: 250             
 });
 
-galleryContainer.insertAdjacentHTML("beforeend", galleryMarkup);
-
-galleryContainer.addEventListener("click", (event) => {
-  event.preventDefault();
-
-  const isImageEl = event.target.classList.contains("gallery-image");
-  if (!isImageEl) return;
-
-  const largeImageURL = event.target.dataset.source;
-
-  const instance = SimpleLightbox.create(
-    `<img src="${largeImageURL}" alt="${event.target.alt}" />`,
-    {
-      onShow: (instance) => {
-        document.addEventListener("keydown", onEscPress);
-      },
-      onClose: (instance) => {
-        document.removeEventListener("keydown", onEscPress);
-      },
-    }
-  );
-
-  instance.show();
-
-  function onEscPress(e) {
-    if (e.code === "Escape") {
-      instance.close();
-    }
-  }
-});
